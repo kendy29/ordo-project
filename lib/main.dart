@@ -27,8 +27,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),routes: {
-         '/detail': (BuildContext context) => const DetailProduct(),
+         '/detail': (BuildContext context) =>  DetailProduct(),
          '/home': (BuildContext context) =>  Dashboard(),
+         '/keranjang': (BuildContext context) =>  CartPage(),
       },
       home: Dashboard(),
     );

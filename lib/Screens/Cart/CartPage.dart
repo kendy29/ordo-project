@@ -24,7 +24,9 @@ class CartPage extends StatelessWidget {
                 height: 16,
                 child: IconButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
+                  onPressed: () {
+                       Navigator.pushReplacementNamed(context, '/detail');
+                  },
                   icon: const Icon(
                     Icons.arrow_back_sharp,
                     color: Colors.white,
