@@ -7,238 +7,123 @@ import 'package:ordo/Screens/DetailProduct/DetailProduct.dart';
 import 'package:ordo/Screens/Home/State/StateDashboard.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+import 'Widget/Home.dart';
 
+class Dashboard extends StatelessWidget {
+  List<Widget> pages = [
+    Center(
+      child: Text("Assignment"),
+    ),
+    Center(
+      child: Text("Swap Horiz"),
+    ),
+    Home(),
+    Center(
+      child: Text("Assessment"),
+    ),
+    Center(
+      child: Text("Person"),
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<StateDashboard>(
         create: (context) => StateDashboard(),
-        child: Scaffold(
-            backgroundColor: Color(0xffFCF8F8),
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 150,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffF0F0F0),
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: TextField(
-                        style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Color(0xff010101).withOpacity(0.2)),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Cari dengan mengetik barang",
-                            hintStyle: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: Color(0xff010101).withOpacity(0.2)))),
-                  ),
-                  Container(
-                      padding: EdgeInsets.all(2),
-                      color: Colors.blue[400],
-                      child: const Icon(
-                        Icons.tune_sharp,
-                        size: 25,
-                        color: Colors.white,
-                      )),
-                  Container(
-                    padding: EdgeInsets.all(2),
-                    color: Colors.brown[400],
-                    child: const Icon(Icons.local_mall,
-                        size: 25, color: Colors.white),
-                  ),
-                  Container(
-                      padding: EdgeInsets.all(2),
-                      color: Colors.red[400],
-                      child: const Icon(Icons.notifications_active_outlined,
-                          size: 25, color: Colors.white)),
+        child: Consumer<StateDashboard>(builder: (context, state, child) {
+          return Scaffold(
+              backgroundColor: Color(0xffFCF8F8),
+              bottomNavigationBar: BottomNavigationBar(
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.grey[400],
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.assignment), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.swap_horiz), label: ''),
+                  BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.assessment), label: ''),
+                  BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
                 ],
+                currentIndex: state.index!,
+                type: BottomNavigationBarType.fixed,
+                onTap: (index) {
+                  state.setIndex(index);
+                },
               ),
-            ),
-            body: Consumer<StateDashboard>(builder: (context, state, child) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                child: ListView(
-                  controller: state.sc,
-                  padding: EdgeInsets.zero,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      height: 8,
-                    ),
                     Container(
-                      margin: EdgeInsets.only(left: 24, right: 24),
-                      width: MediaQuery.of(context).size.width,
-                      height: 180,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: CarouselSlider.builder(
-                            carouselController: state.controller,
-                            itemCount: state.images!.length,
-                            options: CarouselOptions(
-                                viewportFraction: 1,
-                                enlargeCenterPage: true,
-                                autoPlay: true,
-                                onPageChanged: (index, reason) {
-                                  state.setCurrent(index);
-                                }),
-                            itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) {
-                              return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Image.asset(
-                                    "assets/images/banner.jpg",
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 350,
-                                    fit: BoxFit.fill,
-                                  ));
-                            }),
+                      width: MediaQuery.of(context).size.width - 135,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Color(0xffF0F0F0),
+                        borderRadius: BorderRadius.circular(24),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: state.images!.asMap().entries.map((entry) {
-                        return GestureDetector(
-                          onTap: () =>
-                              state.controller.animateToPage(entry.key),
-                          child: Container(
-                            width: 24.0,
-                            height: 5.0,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 4),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(24),
-                                color: (Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Colors.blue[200]
-                                        : Colors.blue)!
-                                    .withOpacity(state.current == entry.key
-                                        ? 0.9
-                                        : 0.4)),
-                          ),
-                        );
-                      }).toList(),
+                      child: TextField(
+                          style: GoogleFonts.poppins(
+                              fontSize: 10.5,
+                              height: 2,
+                              color: Color(0xff010101).withOpacity(0.2)),
+                          decoration: InputDecoration(
+                              prefixIcon: ShaderMask(
+                                  shaderCallback: (Rect bounds) {
+                                    return const RadialGradient(
+                                      center: Alignment.topLeft,
+                                      radius: 0.5,
+                                      colors: <Color>[
+                                        Color(0xff3AB648),
+                                        Color(0xff526430)
+                                      ],
+                                      tileMode: TileMode.mirror,
+                                    ).createShader(bounds);
+                                  },
+                                  child: Icon(
+                                    Icons.search,
+                                    color: Color(0xff3AB648),
+                                  )),
+                              border: InputBorder.none,
+                              hintText: "Cari dengan mengetik barang",
+                              hintStyle: GoogleFonts.poppins(
+                                  fontSize: 10.5,
+                                  height: 2,
+                                  color: Color(0xff010101).withOpacity(0.2)))),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      child: AlignedGridView.count(
-                          controller: state.sc,
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 4,
-                          crossAxisSpacing: 0,
-                          itemCount: state.imageProducts!.length,
-                          itemBuilder: (BuildContext context, int i) {
-                            String img = state.imageProducts![i];
-                            return InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => DetailProduct()));
-                              },
-                              child: Container(
-                                height: 210,
-                                padding: EdgeInsets.all(8),
-                                margin: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 250,
-                                        child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                16), // Image border
-                                            child: Image.asset(
-                                              img,
-                                              width: 250,
-                                              fit: BoxFit.fitWidth,
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Rp ${rupiah(6000)}",
-                                                style: GoogleFonts.inter(
-                                                    fontSize: 14,
-                                                    color: Colors.blue[300],
-                                                    fontWeight: FontWeight.w500,
-                                                    decoration: TextDecoration
-                                                        .lineThrough),
-                                              ),
-                                              Text(
-                                                "Rp ${rupiah(4500)}",
-                                                style: GoogleFonts.inter(
-                                                  fontSize: 14,
-                                                  color: Colors.blue[300],
-                                                  fontWeight: FontWeight.w800,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 4,
-                                                  right: 4,
-                                                  top: 2,
-                                                  bottom: 2),
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue[300],
-                                                borderRadius:
-                                                    BorderRadius.circular(24),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "Diskon 10%",
-                                                  style: GoogleFonts.poppins(
-                                                      color: Colors.white,
-                                                      fontSize: 8,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Text(
-                                        "Lorem ipsum",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      )
-                                    ]),
-                              ),
-                            );
-                          }),
-                    )
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            color: Colors.blue[400],
+                            borderRadius: BorderRadius.circular(6)),
+                        child: const Icon(
+                          Icons.tune_sharp,
+                          size: 20,
+                          color: Colors.white,
+                        )),
+                    Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                          color: Colors.brown[400],
+                          borderRadius: BorderRadius.circular(6)),
+                      child: const Icon(Icons.local_mall,
+                          size: 20, color: Colors.white),
+                    ),
+                    Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            color: Colors.red[400],
+                            borderRadius: BorderRadius.circular(6)),
+                        child: const Icon(Icons.notifications_active_outlined,
+                            size: 20, color: Colors.white)),
                   ],
                 ),
-              );
-            })));
+              ),
+              body: pages[state.index!]);
+        }));
   }
 }

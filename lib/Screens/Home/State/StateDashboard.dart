@@ -17,12 +17,16 @@ class StateDashboard with ChangeNotifier {
     "assets/images/produk7.png",
     "assets/images/produk8.png",
   ];
-
+  int? index = 2;
   int current = 0;
   final CarouselController controller = CarouselController();
   ScrollController sc = ScrollController();
   void setCurrent(int value) {
     current = value;
+    notifyListeners();
+  }
+  void setIndex(int value) {
+    index = value;
     notifyListeners();
   }
 }

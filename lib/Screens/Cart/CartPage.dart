@@ -260,7 +260,7 @@ class CartPage extends StatelessWidget {
                                 height: 105,
                                 padding: EdgeInsets.all(8),
                                 margin:
-                                    EdgeInsets.only(top: 4, left: 8, right: 8),
+                                    EdgeInsets.only(top: 2, left: 8, right: 8),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16)),
@@ -302,16 +302,14 @@ class CartPage extends StatelessWidget {
                                     ),
                                   ],
                                 )),
-                            SizedBox(
-                              height: 8,
-                            ),
+                           
                           ],
                         ));
                   }),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
